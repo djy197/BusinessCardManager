@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,8 +51,16 @@ public class MainActivity extends AppCompatActivity {
                 new int[] { R.id.item_company, R.id.item_name, R.id.item_tel, R.id.item_email });
 
         listView.setAdapter(simAdapt);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 
+                Toast.makeText(MainActivity.this,"aha", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
+
 
     public void btn_index(View view) {
         startActivity(new Intent(MainActivity.this,IndexActivity.class));

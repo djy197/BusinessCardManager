@@ -62,4 +62,8 @@ public class ManageActivity extends AppCompatActivity {
     public void btn_search(View view) {
         startActivity(new Intent(ManageActivity.this,SearchActivity.class));
     }
+
+    public void btn_add(View view) {
+        startActivity(new Intent(ManageActivity.this,DetailActivity.class));
+    }
 }
