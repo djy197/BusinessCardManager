@@ -3,6 +3,8 @@ package com.bcm.djy.businesscardmanager;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -49,6 +51,83 @@ public class DetailActivity extends AppCompatActivity {
         cardName.setText(name);
         cardTel.setText(tel);
         cardEmail.setText(email);
+
+        comText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // 输入的内容变化的监听
+                cardCom.setText(comText.getText());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // 输入前的监听
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // 输入后的监听
+                cardCom.setText(comText.getText());
+            }
+        });
+        nameText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // 输入的内容变化的监听
+                cardName.setText(nameText.getText());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // 输入前的监听
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // 输入后的监听
+                cardName.setText(nameText.getText());
+            }
+        });
+        telText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // 输入的内容变化的监听
+                cardTel.setText(telText.getText());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // 输入前的监听
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // 输入后的监听
+                cardTel.setText(telText.getText());
+            }
+        });
+        emailText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // 输入的内容变化的监听
+                cardEmail.setText(emailText.getText());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // 输入前的监听
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // 输入后的监听
+                cardEmail.setText(emailText.getText());
+            }
+        });
     }
 
     public void btn_back(View view) {
