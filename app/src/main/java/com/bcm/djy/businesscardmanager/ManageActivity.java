@@ -21,7 +21,7 @@ public class ManageActivity extends AppCompatActivity {
 
     private SimpleAdapter simAdapt;
     private ListView listView;
-    private List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+    private List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class ManageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage);
 
         for (int i = 0; i < 4; i++) {
-            Map<String, Object> item = new HashMap<String, Object>();
+            Map<String, String> item = new HashMap<String, String>();
             item.put("com", arrayCom[i]);
             item.put("name", arrayName[i]);
             item.put("tel", arrayTel[i]);

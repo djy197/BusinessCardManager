@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SimpleAdapter simAdapt;
     private ListView listView;
-    private List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+    private List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         for (int i = 0; i < 4; i++) {
-            Map<String, Object> item = new HashMap<String, Object>();
+            Map<String, String> item = new HashMap<String, String>();
             item.put("com", arrayCom[i]);
             item.put("name", arrayName[i]);
             item.put("tel", arrayTel[i]);
@@ -55,10 +55,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Toast.makeText(MainActivity.this,position+"", Toast.LENGTH_SHORT).show();
-
+                HashMap<String, String> map = (HashMap<String, String>) parent.getItemAtPosition(position);
                 Intent intent = new Intent(MainActivity.this,DetailActivity.class);
-
+                intent.putExtra("com",map.get("com"));
+                intent.putExtra("name",map.get("name"));
+                intent.putExtra("tel",map.get("tel"));
+                intent.putExtra("email",map.get("email"));
+                startActivity(intent);
             }
         });
     }
