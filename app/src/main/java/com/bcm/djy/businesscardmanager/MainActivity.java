@@ -17,6 +17,8 @@ import com.bcm.djy.databaseHelper.*;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         myHelper = new MyHelper(this);
         database = myHelper.getWritableDatabase();
 
-        Cursor cursor = database.query(DatabaseStatic.TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = database.query(DatabaseStatic.TABLE_NAME, null, null, null, null, null, DatabaseStatic.LAST_TIME+" DESC");
         if(cursor.moveToFirst()) // 显示数据库的内容
         {
             for(; !cursor.isAfterLast(); cursor.moveToNext()) // 获取查询游标中的数据
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 item.put("name", cursor.getString(cursor.getColumnIndex(DatabaseStatic.NAME)));
                 item.put("tel", cursor.getString(cursor.getColumnIndex(DatabaseStatic.TEL)));
                 item.put("email", cursor.getString(cursor.getColumnIndex(DatabaseStatic.EMAIL)));
+                item.put("id",cursor.getString(cursor.getColumnIndex(DatabaseStatic.ID)));
                 data.add(item);
             }
         }
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
                 HashMap<String, String> map = (HashMap<String, String>) parent.getItemAtPosition(position);
                 Intent intent = new Intent(MainActivity.this,DetailActivity.class);
+                intent.putExtra("id",map.get("id"));
                 intent.putExtra("com",map.get("com"));
                 intent.putExtra("name",map.get("name"));
                 intent.putExtra("tel",map.get("tel"));

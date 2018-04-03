@@ -73,5 +73,19 @@ public class SearchActivity extends AppCompatActivity {
                 new int[] { R.id.item_company, R.id.item_name, R.id.item_tel, R.id.item_email });
 
         listView.setAdapter(simAdapt);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                HashMap<String, String> map = (HashMap<String, String>) parent.getItemAtPosition(position);
+                Intent intent = new Intent(SearchActivity.this,DetailActivity.class);
+                intent.putExtra("id",map.get("id"));
+                intent.putExtra("com",map.get("com"));
+                intent.putExtra("name",map.get("name"));
+                intent.putExtra("tel",map.get("tel"));
+                intent.putExtra("email",map.get("email"));
+                startActivity(intent);
+            }
+        });
     }
 }

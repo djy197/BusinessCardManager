@@ -38,7 +38,7 @@ public class IndexActivity extends AppCompatActivity {
         myHelper = new MyHelper(this);
         database = myHelper.getWritableDatabase();
 
-        Cursor cursor = database.query(DatabaseStatic.TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = database.query(DatabaseStatic.TABLE_NAME, null, null, null, null, null, DatabaseStatic.NAME);
         if(cursor.moveToFirst()) // 显示数据库的内容
         {
             for(; !cursor.isAfterLast(); cursor.moveToNext()) // 获取查询游标中的数据
@@ -56,13 +56,6 @@ public class IndexActivity extends AppCompatActivity {
         if(data.isEmpty())
             Toast.makeText(this, "数据库为空", Toast.LENGTH_SHORT).show();
 
-        Collections.sort(data, new Comparator<Map<String, String>>() {
-            @Override
-            public int compare(Map<String, String> o1, Map<String, String> o2) {
-                return o1.get("name").compareTo(o2.get("name"));
-            }
-        });
-
         listView = (ListView) findViewById(R.id.listView);
 
         simAdapt = new SimpleAdapter(
@@ -79,6 +72,7 @@ public class IndexActivity extends AppCompatActivity {
 
                 HashMap<String, String> map = (HashMap<String, String>) parent.getItemAtPosition(position);
                 Intent intent = new Intent(IndexActivity.this,DetailActivity.class);
+                intent.putExtra("id",map.get("id"));
                 intent.putExtra("com",map.get("com"));
                 intent.putExtra("name",map.get("name"));
                 intent.putExtra("tel",map.get("tel"));
