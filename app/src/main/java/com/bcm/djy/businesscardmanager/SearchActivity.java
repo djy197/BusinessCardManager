@@ -5,8 +5,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
@@ -26,6 +29,8 @@ public class SearchActivity extends AppCompatActivity {
     private MyHelper myHelper = null;
     private SQLiteDatabase database = null;
     private SimpleAdapter simAdapt;
+    private EditText searchText;
+    private String searchCondition;
     private ListView listView;
     private List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 
@@ -34,6 +39,26 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        searchText = (EditText) findViewById(R.id.searchText);
+        searchText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // 输入的内容变化的监听
+                searchCondition=searchText.getText().toString();
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // 输入前的监听
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // 输入后的监听
+                searchCondition="%"+searchText.getText().toString()+"%";
+            }
+        });
     }
 
     public void btn_back(View view) {
@@ -41,11 +66,14 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void btn_search(View view) {
-
+        data = new ArrayList<Map<String, String>>();
         myHelper = new MyHelper(this);
         database = myHelper.getWritableDatabase();
+        String sql="SELECT * FROM "+DatabaseStatic.TABLE_NAME+" WHERE "+DatabaseStatic.COM+" LIKE '"+searchCondition+"' OR "+
+                DatabaseStatic.NAME+" LIKE '"+searchCondition+"' OR "+DatabaseStatic.TEL+" LIKE '"+searchCondition+"' OR "+
+                DatabaseStatic.EMAIL+" LIKE '"+ searchCondition+"' ORDER BY "+DatabaseStatic.NAME;
 
-        Cursor cursor = database.query(DatabaseStatic.TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = database.rawQuery(sql, null);
         if(cursor.moveToFirst()) // 显示数据库的内容
         {
             for(; !cursor.isAfterLast(); cursor.moveToNext()) // 获取查询游标中的数据
