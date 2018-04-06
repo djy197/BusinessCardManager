@@ -63,7 +63,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Delete"
-        android:background="@drawable/button_delete" />
+        android:background="@drawable/button_delete"
+        android:onClick="btn_delete"/>
 
     <LinearLayout
         android:layout_width="match_parent"
