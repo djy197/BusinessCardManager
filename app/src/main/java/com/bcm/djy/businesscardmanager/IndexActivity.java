@@ -35,6 +35,31 @@ public class IndexActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 
+        listChange();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        listChange();
+    }
+
+    public void btn_recently(View view) {
+        startActivity(new Intent(IndexActivity.this,MainActivity.class));
+        finish();
+    }
+
+    public void btn_manage(View view) {
+        startActivity(new Intent(IndexActivity.this,ManageActivity.class));
+        finish();
+    }
+
+    public void btn_search(View view) {
+        startActivity(new Intent(IndexActivity.this,SearchActivity.class));
+    }
+
+    public void listChange(){
+        data = new ArrayList<Map<String, String>>();
         myHelper = new MyHelper(this);
         database = myHelper.getWritableDatabase();
 
