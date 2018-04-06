@@ -47,12 +47,9 @@ public class DetailActivity extends AppCompatActivity {
         String tel=intent.getStringExtra("tel");
         String email=intent.getStringExtra("email");
 
-
-
         if(id!=null) {
             Date d = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-            Toast.makeText(this, sdf.format(new Date()), Toast.LENGTH_SHORT).show();
             if(myHelper == null)
             {
                 myHelper = new MyHelper(this);

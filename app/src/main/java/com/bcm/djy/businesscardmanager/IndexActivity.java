@@ -48,6 +48,7 @@ public class IndexActivity extends AppCompatActivity {
                 item.put("name", cursor.getString(cursor.getColumnIndex(DatabaseStatic.NAME)));
                 item.put("tel", cursor.getString(cursor.getColumnIndex(DatabaseStatic.TEL)));
                 item.put("email", cursor.getString(cursor.getColumnIndex(DatabaseStatic.EMAIL)));
+                item.put("id",cursor.getString(cursor.getColumnIndex(DatabaseStatic.ID)));
                 data.add(item);
             }
         }
@@ -80,19 +81,5 @@ public class IndexActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    public void btn_recently(View view) {
-        startActivity(new Intent(IndexActivity.this,MainActivity.class));
-        finish();
-    }
-
-    public void btn_manage(View view) {
-        startActivity(new Intent(IndexActivity.this,ManageActivity.class));
-        finish();
-    }
-
-    public void btn_search(View view) {
-        startActivity(new Intent(IndexActivity.this,SearchActivity.class));
     }
 }

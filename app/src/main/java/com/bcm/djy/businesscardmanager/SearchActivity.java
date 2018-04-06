@@ -44,7 +44,8 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 // 输入的内容变化的监听
-                searchCondition=searchText.getText().toString();
+                searchCondition="%"+searchText.getText().toString()+"%";
+                listChange();
             }
 
             @Override
@@ -57,15 +58,22 @@ public class SearchActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 // 输入后的监听
                 searchCondition="%"+searchText.getText().toString()+"%";
+                listChange();
             }
         });
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        listChange();
     }
 
     public void btn_back(View view) {
         finish();
     }
 
-    public void btn_search(View view) {
+    public void listChange(){
         data = new ArrayList<Map<String, String>>();
         myHelper = new MyHelper(this);
         database = myHelper.getWritableDatabase();
@@ -87,9 +95,6 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
         cursor.close();
-
-        if(data.isEmpty())
-            Toast.makeText(this, "数据库为空", Toast.LENGTH_SHORT).show();
 
         listView = (ListView) findViewById(R.id.listView);
 

@@ -65,8 +65,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            app:srcCompat="@drawable/search"
-            android:onClick="btn_search"/>
+            app:srcCompat="@drawable/search"/>
     </RelativeLayout>
 
     <ListView

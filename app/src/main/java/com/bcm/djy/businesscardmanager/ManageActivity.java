@@ -34,7 +34,7 @@ public class ManageActivity extends AppCompatActivity {
         myHelper = new MyHelper(this);
         database = myHelper.getWritableDatabase();
 
-        Cursor cursor = database.query(DatabaseStatic.TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = database.query(DatabaseStatic.TABLE_NAME, null, null, null, null, null, DatabaseStatic.NAME);
         if(cursor.moveToFirst()) // 显示数据库的内容
         {
             for(; !cursor.isAfterLast(); cursor.moveToNext()) // 获取查询游标中的数据
@@ -63,6 +63,7 @@ public class ManageActivity extends AppCompatActivity {
 
         listView.setAdapter(simAdapt);
     }
+
 
     public void btn_index(View view) {
         startActivity(new Intent(ManageActivity.this,IndexActivity.class));

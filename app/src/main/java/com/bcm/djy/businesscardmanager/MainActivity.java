@@ -37,6 +37,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        listChange();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        listChange();
+    }
+
+    public void btn_index(View view) {
+        startActivity(new Intent(MainActivity.this,IndexActivity.class));
+        finish();
+    }
+
+    public void btn_manage(View view) {
+        startActivity(new Intent(MainActivity.this,ManageActivity.class));
+        finish();
+    }
+
+    public void btn_search(View view) {
+        startActivity(new Intent(MainActivity.this,SearchActivity.class));
+    }
+
+    public void listChange(){
+        data = new ArrayList<Map<String, String>>();
         myHelper = new MyHelper(this);
         database = myHelper.getWritableDatabase();
 
@@ -85,17 +110,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void btn_index(View view) {
-        startActivity(new Intent(MainActivity.this,IndexActivity.class));
-        finish();
-    }
-
-    public void btn_manage(View view) {
-        startActivity(new Intent(MainActivity.this,ManageActivity.class));
-        finish();
-    }
-
-    public void btn_search(View view) {
-        startActivity(new Intent(MainActivity.this,SearchActivity.class));
-    }
 }
