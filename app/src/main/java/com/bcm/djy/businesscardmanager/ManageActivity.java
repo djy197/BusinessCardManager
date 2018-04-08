@@ -42,42 +42,51 @@ public class ManageActivity extends AppCompatActivity {
         listChange();
     }
 
+    //When you click the Index button, open the IndexActivity and close the ManageActivity
     public void btn_index(View view) {
         startActivity(new Intent(ManageActivity.this,IndexActivity.class));
         finish();
     }
 
+    //When you click the Recently button, open the MainActivity and close the ManageActivity
     public void btn_recently(View view) {
         startActivity(new Intent(ManageActivity.this,MainActivity.class));
         finish();
     }
 
+    //When you click the Search button, open the SearchActivity and pause the ManageActivity
     public void btn_search(View view) {
         startActivity(new Intent(ManageActivity.this,SearchActivity.class));
     }
 
+    //When you click the Add button, open a DetailActivity for a new business card
     public void btn_add(View view) {
         startActivity(new Intent(ManageActivity.this,DetailActivity.class));
     }
 
+    //When you click the Delete button, the item you selected will be deleted
     public void btn_delete(View view) {
         myHelper = new MyHelper(this);
         database = myHelper.getWritableDatabase();
+        //Check all the item in the ArrayList. If the "state" of the item is "checked", it mean it is been selected and will be deleted
         for(int i=0;i<data.size();i++)
             if(data.get(i).get("state")=="checked")
                 database.delete(DatabaseStatic.TABLE_NAME, DatabaseStatic.ID + "= ?",new String[]{data.get(i).get("id").toString()});
         listChange();
     }
 
+    //Refresh the ListView of the business card
     public void listChange(){
+        //Clear the ArrayList and connect the database
         data = new ArrayList<Map<String, Object>>();
         myHelper = new MyHelper(this);
         database = myHelper.getWritableDatabase();
 
+        //Get all the business card information from the database
         Cursor cursor = database.query(DatabaseStatic.TABLE_NAME, null, null, null, null, null, DatabaseStatic.NAME);
-        if(cursor.moveToFirst()) // 显示数据库的内容
+        if(cursor.moveToFirst())
         {
-            for(; !cursor.isAfterLast(); cursor.moveToNext()) // 获取查询游标中的数据
+            for(; !cursor.isAfterLast(); cursor.moveToNext())
             {
                 Map<String, Object> item = new HashMap<String, Object>();
                 item.put("com", cursor.getString(cursor.getColumnIndex(DatabaseStatic.COM)));
@@ -92,23 +101,26 @@ public class ManageActivity extends AppCompatActivity {
         }
         cursor.close();
 
+        //If there are not thing in the database, show it to user
         if(data.isEmpty())
-            Toast.makeText(this, "数据库为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "The Database is empty!", Toast.LENGTH_SHORT).show();
 
+        //Get the ListView, create new Adapter and set the Adapter
         listView = (ListView) findViewById(R.id.listView);
-
         simAdapt = new SimpleAdapter(
                 this,
                 data,
                 R.layout.item_select_layout,
-                new String[] { "com", "name", "tel", "email", "img" },// 与下面数组元素要一一对应
+                new String[] { "com", "name", "tel", "email", "img" },
                 new int[] { R.id.item_company, R.id.item_name, R.id.item_tel, R.id.item_email, R.id.item_check });
-
         listView.setAdapter(simAdapt);
+
+        //Set the OnItemClickListener, when you click one of the item, the "state" of the item will be changed
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Map<String, Object> item = data.get(position);
+                //Change "state"
                 if(item.get("state")=="unchecked")
                 {
                     item.put("img",R.drawable.checked);
@@ -117,9 +129,10 @@ public class ManageActivity extends AppCompatActivity {
                 else if(item.get("state")=="checked")
                 {
                     item.put("img",R.drawable.unchecked);
-                    item.put("state","uncheck");
+                    item.put("state","unchecked");
                 }
-                data.remove(position);//清除此行对应数据集中的数据
+                //Update "state"
+                data.remove(position);
                 data.add(position, item);
                 simAdapt.notifyDataSetChanged();
             }

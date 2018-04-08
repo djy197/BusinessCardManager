@@ -47,8 +47,8 @@ public class DetailActivity extends AppCompatActivity {
         String tel=intent.getStringExtra("tel");
         String email=intent.getStringExtra("email");
 
+        //If there isn't a new business card, change the last time you visit the business card
         if(id!=null) {
-            Date d = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
             if(myHelper == null)
             {
@@ -80,89 +80,85 @@ public class DetailActivity extends AppCompatActivity {
         cardTel.setText(tel);
         cardEmail.setText(email);
 
+        //Set the listener of the com, name, tel and email. When the EditText change, the text on the card will also change
         comText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // 输入的内容变化的监听
                 cardCom.setText(comText.getText());
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // 输入前的监听
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // 输入后的监听
                 cardCom.setText(comText.getText());
             }
         });
         nameText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // 输入的内容变化的监听
                 cardName.setText(nameText.getText());
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // 输入前的监听
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // 输入后的监听
                 cardName.setText(nameText.getText());
             }
         });
         telText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // 输入的内容变化的监听
                 cardTel.setText(telText.getText());
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // 输入前的监听
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // 输入后的监听
                 cardTel.setText(telText.getText());
             }
         });
         emailText.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // 输入的内容变化的监听
                 cardEmail.setText(emailText.getText());
             }
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // 输入前的监听
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // 输入后的监听
                 cardEmail.setText(emailText.getText());
             }
         });
     }
 
+    //When you click the Back button, close the DetailActivity
     public void btn_back(View view) {
         finish();
     }
 
+    //When you click the Delete button, delete the business card
     public void btn_delete(View view) {
+        //If there is a new card, directly close the DetailActivity
+        if(id!=null);
+        else finish();
+
+        //Delete the card and close the DetailActivity
         if(myHelper == null)
         {
             myHelper = new MyHelper(this);
@@ -173,19 +169,30 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void btn_confirm(View view) {
-        if(myHelper == null)
+        //If there are something empty, you can not confirm the change or insert
+        if((comText.getText().length()>0)&&(nameText.getText().length()>0)&&(telText.getText().length()>0)&&(emailText.getText().length()>0));
+        else
         {
+            Toast.makeText(this, "Please input all the information !", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        //Clear the ArrayList and connect the database
+        if (myHelper == null) {
             myHelper = new MyHelper(this);
         }
         database = myHelper.getWritableDatabase();
+
+        //Put all the information into the ContentValues
         ContentValues cV = new ContentValues();
-        Date d = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
         cV.put(DatabaseStatic.COM, comText.getText().toString());
         cV.put(DatabaseStatic.NAME, nameText.getText().toString());
         cV.put(DatabaseStatic.TEL, telText.getText().toString());
         cV.put(DatabaseStatic.EMAIL, emailText.getText().toString());
-        cV.put(DatabaseStatic.LAST_TIME,sdf.format(new Date()));
+        cV.put(DatabaseStatic.LAST_TIME, sdf.format(new Date()));
+
+        //If there is a new card, insert it into database, if there isn't a new card, update the change to the database
         if(id!=null)
             database.update(DatabaseStatic.TABLE_NAME,cV,DatabaseStatic.ID + "= ?",new String[]{id});
         else

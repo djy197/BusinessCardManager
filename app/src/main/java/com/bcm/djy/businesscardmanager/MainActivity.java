@@ -46,29 +46,35 @@ public class MainActivity extends AppCompatActivity {
         listChange();
     }
 
+    //When you click the Index button, open the IndexActivity and close the MainActivity
     public void btn_index(View view) {
         startActivity(new Intent(MainActivity.this,IndexActivity.class));
         finish();
     }
 
+    //When you click the Manage button, open the ManageActivity and close the MainActivity
     public void btn_manage(View view) {
         startActivity(new Intent(MainActivity.this,ManageActivity.class));
         finish();
     }
 
+    //When you click the Search button, open the SearchActivity and pause the MainActivity
     public void btn_search(View view) {
         startActivity(new Intent(MainActivity.this,SearchActivity.class));
     }
 
+    //Refresh the ListView of the business card
     public void listChange(){
+        //Clear the ArrayList and connect the database
         data = new ArrayList<Map<String, String>>();
         myHelper = new MyHelper(this);
         database = myHelper.getWritableDatabase();
 
+        //Get all the business card information from the database
         Cursor cursor = database.query(DatabaseStatic.TABLE_NAME, null, null, null, null, null, DatabaseStatic.LAST_TIME+" DESC");
-        if(cursor.moveToFirst()) // 显示数据库的内容
+        if(cursor.moveToFirst())
         {
-            for(; !cursor.isAfterLast(); cursor.moveToNext()) // 获取查询游标中的数据
+            for(; !cursor.isAfterLast(); cursor.moveToNext())
             {
                 Map<String, String> item = new HashMap<String, String>();
                 item.put("com", cursor.getString(cursor.getColumnIndex(DatabaseStatic.COM)));
@@ -81,19 +87,21 @@ public class MainActivity extends AppCompatActivity {
         }
         cursor.close();
 
+        //If there are not thing in the database, show it to user
         if(data.isEmpty())
-            Toast.makeText(this, "数据库为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "The Database is empty!", Toast.LENGTH_SHORT).show();
 
+        //Get the ListView, create new Adapter and set the Adapter
         listView = (ListView) findViewById(R.id.listView);
-
         simAdapt = new SimpleAdapter(
                 this,
                 data,
                 R.layout.item_layout,
-                new String[] { "com", "name", "tel", "email" },// 与下面数组元素要一一对应
+                new String[] { "com", "name", "tel", "email" },
                 new int[] { R.id.item_company, R.id.item_name, R.id.item_tel, R.id.item_email });
-
         listView.setAdapter(simAdapt);
+
+        //Set the OnItemClickListener, when you click one of the item, open the DetailActivity of the item
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
