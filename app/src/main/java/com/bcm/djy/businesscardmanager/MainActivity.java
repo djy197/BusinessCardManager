@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.bcm.djy.databaseHelper.*;
 
@@ -30,13 +31,14 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase database = null;
     private SimpleAdapter simAdapt;
     private ListView listView;
+    private TextView tag;
     private List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        tag = (TextView)findViewById(R.id.tag);
         listChange();
     }
 
@@ -88,8 +90,10 @@ public class MainActivity extends AppCompatActivity {
         cursor.close();
 
         //If there are not thing in the database, show it to user
-        if(data.isEmpty())
-            Toast.makeText(this, "The Database is empty!", Toast.LENGTH_SHORT).show();
+        if(data.isEmpty()) {
+            tag.setText("There is nothing !");
+        }
+        else tag.setText("");
 
         //Get the ListView, create new Adapter and set the Adapter
         listView = (ListView) findViewById(R.id.listView);

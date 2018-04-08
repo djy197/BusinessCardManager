@@ -49,6 +49,15 @@
             android:onClick="btn_add"/>
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text=""
+        android:textSize="20dp"
+        android:textColor="@android:color/black" />
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
@@ -94,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Recntly"
+            android:text="Recently"
             android:background="@drawable/button_shape"
             android:onClick="btn_recently"/>
 

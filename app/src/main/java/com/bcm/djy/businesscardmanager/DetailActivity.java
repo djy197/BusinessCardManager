@@ -177,6 +177,14 @@ public class DetailActivity extends AppCompatActivity {
             return;
         }
 
+        String format = "\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*";
+        if(emailText.getText().toString().matches(format));
+        else
+        {
+            Toast.makeText(this, "Please input correct E-mail !", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         //Clear the ArrayList and connect the database
         if (myHelper == null) {
             myHelper = new MyHelper(this);
